@@ -9,7 +9,6 @@
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs { inherit system; };
-      lib = pkgs.lib;
     in
     {
       packages.${system}.blog-builder = pkgs.python3Packages.buildPythonPackage {
