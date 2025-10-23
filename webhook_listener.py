@@ -41,8 +41,6 @@ def webhook():
     subprocess.run(["hugo"], cwd=os.path.join(working_dir, "site"), shell=True, check=True)
 
 if __name__ == '__main__':
-    if not os.path.exists(working_dir):
-        os.makedirs(working_dir)
     if not os.path.exists(os.path.join(working_dir, "blog-ideas")):
         git_clone()
     else:

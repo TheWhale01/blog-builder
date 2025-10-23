@@ -1,4 +1,4 @@
-{ self, system, config, lib, ... }:
+{ self, system, config, lib, pkgs, ... }:
 let
   cfg = config.services.blog-builder;
 in
@@ -54,7 +54,10 @@ in
         WorkingDirectory = cfg.workingDir;
         ExecStart = "${self.packages.${system}.blog-builder}/bin/blog-builder";
         Restart = "on-failure";
-        Environment = "WORKING_DIR=${cfg.workingDir}";
+        Environment = [
+          "WORKING_DIR=${cfg.workingDir}"
+          "PATH=${pkgs.hugo}/bin:/run/current-system/sw/bin:/usr/bin"
+        ];
       };
     };
 
