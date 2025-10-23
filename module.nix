@@ -1,4 +1,4 @@
-{ config, lib, self, system, ... }:
+{ config, pkgs, lib, ... }:
 let
   cfg = config.services.blog-builder;
 in
@@ -51,7 +51,7 @@ in
       serviceConfig = {
         User = cfg.user;
         WorkingDirectory = cfg.workingDir;
-        ExecStart = "${self.packages.${system}.blog-builder}/bin/blog-builder";
+        ExecStart = "${pkgs.blog-builder}/bin/blog-builder";
         Restart = "on-failure";
       };
     };
