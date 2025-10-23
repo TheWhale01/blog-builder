@@ -52,6 +52,7 @@ in
       serviceConfig = {
         User = cfg.user;
         WorkingDirectory = cfg.workingDir;
+        ExecStartPre = "mkdir -p ${cfg.workingDir}/logs";
         ExecStart = "${self.packages.${system}.blog-builder}/bin/blog-builder";
         Restart = "on-failure";
         Environment = [
@@ -64,15 +65,18 @@ in
     services.nginx = {
       enable = true;
       virtualHosts.${cfg.domain} = {
+        root = "${cfg.workingDir}/site/public";
+        index = "index.html";
         listen = [{
-          addr = "0.0.0.0";
+          addr = "127.0.0.1";
           port = cfg.publicPort;
         }];
         locations."/" = {
-          proxyPass = "http://127.0.0.1:${toString cfg.port}";
-          proxyWebsockets = true;
+          try_files = [ "/index.html =404" ];
         };
       };
+      access_log = "${cfg.workingDir}/logs/access.log";
+      error_log = "${cfg.workingDir}/logs/error.log";
     };
 
     networking.firewall.allowedTCPPorts = [ cfg.publicPort ];

@@ -26,6 +26,7 @@ def create_site():
     hugo_conf = '''baseURL = 'https://blog.thewhale.fr'
 languageCode = 'fr-fr'
 title = "Whale's Blog"
+theme = "PaperMod"
 '''
     print("Creating site...")
     subprocess.run(["hugo", "new", "site", repo_dir], cwd=working_dir, check=True)
