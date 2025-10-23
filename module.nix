@@ -3,6 +3,7 @@ let
   cfg = config.services.blog-builder;
 in
 {
+  users.groups.${cfg.user} = {};
   options.services.blog-builder = {
     enable = lib.mkEnableOption "FastAPI webhook listener for Hugo builds";
 
@@ -38,7 +39,6 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    users.groups.${cfg.user} = {};
     users.users.${cfg.user} = {
       isSystemUser = true;
       home = cfg.workingDir;
@@ -55,6 +55,7 @@ in
         WorkingDirectory = cfg.workingDir;
         ExecStart = "${self.packages.${system}.blog-builder}/bin/blog-builder";
         Restart = "on-failure";
+        Environment = "WORKING_DIR=${cfg.workingDir}";
       };
     };
 
