@@ -18,6 +18,9 @@ def git_pull():
     origin = repo.remote(name="origin")
     origin.pull()
 
+def compile_site():
+    subprocess.run(["hugo"], cwd=os.path.join(working_dir, "site"), shell=True, check=True)
+
 def create_site():
     repo_dir = os.path.join(working_dir, "site")
     hugo_conf = '''baseURL = 'https://blog.thewhale.fr'
@@ -34,11 +37,12 @@ title = "Whale's Blog"
     shutil.rmtree(os.path.join(working_dir, "site/static"))
     os.symlink(os.path.join(working_dir, "blog-ideas/content"), os.path.join(working_dir, "site/content"))
     os.symlink(os.path.join(working_dir, "blog-ideas/static"), os.path.join(working_dir, "site/static"))
+    compile_site()
 
 @app.post("/webhook")
 def webhook():
     git_pull()
-    subprocess.run(["hugo"], cwd=os.path.join(working_dir, "site"), shell=True, check=True)
+    compile_site()
 
 if __name__ == '__main__':
     if not os.path.exists(os.path.join(working_dir, "blog-ideas")):
