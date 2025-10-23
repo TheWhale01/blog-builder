@@ -1,4 +1,4 @@
-{ self, system, config, pkgs, lib, ... }:
+{ self, system, config, lib, ... }:
 let
   cfg = config.services.blog-builder;
 in
