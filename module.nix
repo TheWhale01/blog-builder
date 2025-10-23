@@ -66,7 +66,6 @@ in
       enable = true;
       virtualHosts.${cfg.domain} = {
         root = "${cfg.workingDir}/site/public";
-        index = "index.html";
         listen = [{
           addr = "127.0.0.1";
           port = cfg.publicPort;
