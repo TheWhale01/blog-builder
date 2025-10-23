@@ -44,8 +44,6 @@
       };
 
       defaultPackage.${system} = self.packages.${system}.blog-builder;
-      nixosModules.blog-builder = { lib, pkgs, ... }: import ./module.nix {
-        inherit self system lib pkgs;
-      };
+      nixosModules.blog-builder = import ./module.nix;
    };
 }
