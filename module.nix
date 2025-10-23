@@ -37,7 +37,7 @@ in
     };
   };
 
-  users.groups.${cfg.user} = {};
+  users.groups.${cfg.user} = cfg.user;
 
   config = lib.mkIf cfg.enable {
     users.users.${cfg.user} = {
