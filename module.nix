@@ -3,7 +3,6 @@ let
   cfg = config.services.blog-builder;
 in
 {
-  users.groups.${cfg.user} = {};
   options.services.blog-builder = {
     enable = lib.mkEnableOption "FastAPI webhook listener for Hugo builds";
 

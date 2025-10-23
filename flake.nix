@@ -13,7 +13,7 @@
     {
       packages.${system}.blog-builder = pkgs.python3Packages.buildPythonPackage {
         pname = "blog-builder";
-        version = "1.0.1";
+        version = "1.0.2";
 
         src = ./.;
         format = "other";
