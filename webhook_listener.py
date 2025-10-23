@@ -38,6 +38,7 @@ title = "Whale's Blog"
 @app.post("/webhook")
 def webhook():
     git_pull()
+    subprocess.run(["hugo"], cwd="site", shell=True, check=True)
 
 if __name__ == '__main__':
     if not os.path.exists("./blog-ideas"):
