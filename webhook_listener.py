@@ -25,7 +25,7 @@ languageCode = 'fr-fr'
 title = "Whale's Blog"
 '''
     print("Creating site...")
-    os.system(f"hugo new site {repo_dir}")
+    subprocess.run(["hugo", "new", "site", repo_dir], cwd=repo_dir, check=True)
     subprocess.run(["git", "submodule", "add", "--depth=1", "-f", "https://github.com/adityatelange/hugo-PaperMod.git", "themes/PaperMod"], cwd=repo_dir, check=True)
     subprocess.run(["git", "submodule", "update", "--init", "--recursive"], cwd=repo_dir, check=True)
     with open(os.path.join(working_dir, 'site/hugo.toml'), 'w') as file:
