@@ -73,7 +73,6 @@ in
         locations."/" = {
           try_files = [ "/index.html =404" ];
         };
-        logError = "${cfg.workingDir}/logs/error.log";
       };
     };
 
