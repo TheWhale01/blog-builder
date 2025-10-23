@@ -38,7 +38,7 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    users.groups.blogbuilder = {};
+    users.groups.${cfg.user} = {};
     users.users.${cfg.user} = {
       isSystemUser = true;
       home = cfg.workingDir;
