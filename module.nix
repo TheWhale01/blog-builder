@@ -42,6 +42,7 @@ in
       isSystemUser = true;
       home = cfg.workingDir;
       createHome = true;
+      group = cfg.user;
     };
 
     systemd.services.blog-builder = {
