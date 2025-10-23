@@ -37,6 +37,8 @@ in
     };
   };
 
+  users.groups.${cfg.user} = {};
+
   config = lib.mkIf cfg.enable {
     users.users.${cfg.user} = {
       isSystemUser = true;
