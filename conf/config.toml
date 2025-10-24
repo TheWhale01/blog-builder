@@ -1,0 +1,34 @@
+[[menu.main]]
+    identifier = "posts"
+    name = "Posts"
+    url = "/posts/"
+    weight = 10
+
+[[menu.main]]
+    identifier = "tags"
+    name = "Tags"
+    url = "/tags/"
+    weight = 20
+
+[params.homeInfoParams]
+    Title = "Hi there !"
+    Content = "Blog about what I've learnt ! For sharing purposes"
+
+[[params.socialIcons]]
+    name = "github"
+    url = "https://github.com/TheWhale01"
+
+[Params]
+    ShowReadingTime = true
+    ShowShareButton = true
+    ShowCodeCopyButtons = true
+    showtoc = true
+    UseHugoToc = true
+
+[editPost]
+    URL = "https://github.com/TheWhale01/blog-ideas/content"
+    Text = "Suggest Chagnes"
+    appendFilePath = true
+
+[outputs]
+    home = [ "HTML", "RSS", "JSON" ]

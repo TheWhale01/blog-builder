@@ -1,0 +1,4 @@
+baseURL = 'https://blog.thewhale.fr'
+languageCode = 'fr-fr'
+title = "Whale's Blog"
+theme = "PaperMod"
