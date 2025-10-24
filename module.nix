@@ -52,12 +52,6 @@ in
       serviceConfig = {
         User = cfg.user;
         WorkingDirectory = cfg.workingDir;
-        ExecStartPre = pkgs.writeShellScriptBin "blog-builder-pre-start" ''
-          #!${pkgs.bash}/bin/bash
-
-          mkdir -p ${cfg.workingDir}/public
-          touch ${cfg.workingDir}/public/index.html
-        '';
         ExecStart = "${self.packages.${system}.blog-builder}/bin/blog-builder";
         Restart = "on-failure";
         Environment = [
