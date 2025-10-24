@@ -76,7 +76,7 @@ in
           port = cfg.publicPort;
         }];
         locations."/" = {
-          try_files = [ "/index.html =404" ];
+          try_files = "/index.html =404";
         };
       };
     };
