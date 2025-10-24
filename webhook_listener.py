@@ -29,9 +29,10 @@ title = "Whale's Blog"
 theme = "PaperMod"
 '''
     print("Creating site...")
-    subprocess.run(["hugo", "new", "site", repo_dir], cwd=working_dir, check=True)
-    subprocess.run(["git", "submodule", "add", "--depth=1", "-f", "https://github.com/adityatelange/hugo-PaperMod.git", "themes/PaperMod"], cwd=repo_dir, check=True)
-    subprocess.run(["git", "submodule", "update", "--init", "--recursive"], cwd=repo_dir, check=True)
+    subprocess.run("git init", cwd=working_dir, check=True, shell=True)
+    subprocess.run(f"hugo new site {repo_dir}", cwd=working_dir, check=True, shell=True)
+    subprocess.run("git submodule add --depth=1 -f https://github.com/adityatelange/hugo-PaperMod.git themes/PaperMod", cwd=repo_dir, check=True, shell=True)
+    subprocess.run("git submodule update --init --recursive", cwd=repo_dir, check=True, shell=True)
     with open(os.path.join(working_dir, 'site/hugo.toml'), 'w') as file:
         file.write(hugo_conf)
     shutil.rmtree(os.path.join(working_dir, "site/content"))
@@ -54,4 +55,4 @@ if __name__ == '__main__':
         create_site()
     if not os.path.exists(os.path.join(working_dir, "site/public")):
         compile_site()
-    uvicorn.run("webhook_listener:app", host="127.0.0.1", port=8882, reload=True)
+    uvicorn.run("webhook_listener:app", host="127.0.0.1", port=8882, reload=False)

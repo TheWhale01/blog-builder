@@ -49,15 +49,15 @@ in
       description = "FastAPI webhook listener for Hugo blog rebuilds";
       after = [ "network.target" ];
       wantedBy = [ "multi-user.target" ];
+      path = [ "${pkgs.hugo}" "${pkgs.git}" ];
       serviceConfig = {
         User = cfg.user;
         WorkingDirectory = cfg.workingDir;
-        ExecStartPre = "${pkgs.coreutils}/bin/chmod 755 ${cfg.workingDir}";
+        ExecStartPost = "${pkgs.coreutils}/bin/chmod 755 ${cfg.workingDir}";
         ExecStart = "${self.packages.${system}.blog-builder}/bin/blog-builder";
         Restart = "on-failure";
         Environment = [
           "WORKING_DIR=${cfg.workingDir}"
-          "PATH=${pkgs.hugo}/bin:/run/current-system/sw/bin:/usr/bin"
         ];
       };
     };
