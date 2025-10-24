@@ -71,7 +71,10 @@ in
           port = cfg.publicPort;
         }];
         locations."/" = {
-          tryFiles = "/index.html =404";
+          tryFiles = "$uri $uri/ index.html";
+        };
+        locations."~* \.(css|js|png|jpg|jpeg|gif|svg|ico|webp|ttf|woff2?)$" = {
+          tryFiles = "$uri =404";
         };
       };
     };
