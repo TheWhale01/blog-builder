@@ -52,7 +52,7 @@ in
       serviceConfig = {
         User = cfg.user;
         WorkingDirectory = cfg.workingDir;
-        ExecStartPre = "chmod 755 ${cfg.workingDir}";
+        ExecStartPre = "${pkgs.coreutils}/bin/chmod 755 ${cfg.workingDir}";
         ExecStart = "${self.packages.${system}.blog-builder}/bin/blog-builder";
         Restart = "on-failure";
         Environment = [
