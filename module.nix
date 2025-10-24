@@ -76,5 +76,9 @@ in
     };
 
     networking.firewall.allowedTCPPorts = [ cfg.publicPort ];
+
+    systemd.tmpfiles.rules = [
+      "Z ${cfg.workingDir} 0755 ${cfg.user} ${cfg.user} -"
+    ];
   };
 }
