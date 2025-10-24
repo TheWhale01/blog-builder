@@ -52,6 +52,7 @@ in
       serviceConfig = {
         User = cfg.user;
         WorkingDirectory = cfg.workingDir;
+        ExecStartPre = "chmod 755 ${cfg.workingDir}";
         ExecStart = "${self.packages.${system}.blog-builder}/bin/blog-builder";
         Restart = "on-failure";
         Environment = [
@@ -76,9 +77,5 @@ in
     };
 
     networking.firewall.allowedTCPPorts = [ cfg.publicPort ];
-
-    systemd.tmpfiles.rules = [
-      "Z ${cfg.workingDir} 0755 ${cfg.user} ${cfg.user} -"
-    ];
   };
 }
