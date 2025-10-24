@@ -52,4 +52,6 @@ if __name__ == '__main__':
         git_pull()
     if not os.path.exists(os.path.join(working_dir, "site")):
         create_site()
+    if not os.path.exists(os.path.join(working_dir, "site/public")):
+        compile_site()
     uvicorn.run("webhook_listener:app", host="127.0.0.1", port=8882, reload=True)
