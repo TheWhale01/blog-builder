@@ -22,19 +22,18 @@ def compile_site():
     subprocess.run(["hugo"], cwd=os.path.join(working_dir, "site"), shell=True, check=True)
 
 def configure_hugo():
-    shutil.rmtree(os.path.join(working_dir, "site/hugo.toml"))
+    shutil.os.remove(os.path.join(working_dir, "site/hugo.yaml"))
     shutil.rmtree(os.path.join(working_dir, "site/content"))
     shutil.rmtree(os.path.join(working_dir, "site/static"))
-    os.symlink(os.path.join(working_dir, "conf/hugo.toml"), os.path.join(working_dir, "site/hugo.toml"))
     os.symlink(os.path.join(working_dir, "blog-ideas/content"), os.path.join(working_dir, "site/content"))
     os.symlink(os.path.join(working_dir, "blog-ideas/static"), os.path.join(working_dir, "site/static"))
-    os.symlink(os.path.join(working_dir, "conf/config.toml"), os.path.join(working_dir, "site/config.toml"))
+    os.symlink(os.path.join(working_dir, "conf/hugo.yaml"), os.path.join(working_dir, "site/hugo.yaml"))
 
 def create_site():
     repo_dir = os.path.join(working_dir, "site")
     print("Creating site...")
     subprocess.run("git init", cwd=working_dir, check=True, shell=True)
-    subprocess.run(f"hugo new site {repo_dir}", cwd=working_dir, check=True, shell=True)
+    subprocess.run(f"hugo new site {repo_dir} --format yaml", cwd=working_dir, check=True, shell=True)
     subprocess.run("git submodule add --depth=1 -f https://github.com/adityatelange/hugo-PaperMod.git themes/PaperMod", cwd=repo_dir, check=True, shell=True)
     subprocess.run("git submodule update --init --recursive", cwd=repo_dir, check=True, shell=True)
     configure_hugo()

@@ -53,6 +53,7 @@ in
       serviceConfig = {
         User = cfg.user;
         WorkingDirectory = cfg.workingDir;
+        ExecStartPre = "${pkgs.coreutils}/bin/cp -r ${self.packages.${system}.blog-builder}/conf ${cfg.workingDir}";
         ExecStartPost = "${pkgs.coreutils}/bin/chmod 755 ${cfg.workingDir}";
         ExecStart = "${self.packages.${system}.blog-builder}/bin/blog-builder";
         Restart = "on-failure";

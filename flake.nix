@@ -32,6 +32,7 @@
 
         installPhase = ''
           mkdir -p $out/bin
+          cp -r conf/ $out/
           cp webhook_listener.py $out/bin/webhook_listener.py
           chmod +x $out/bin/webhook_listener.py
           # Create launcher script
