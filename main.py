@@ -76,9 +76,9 @@ if __name__ == '__main__':
         git_clone()
     else:
         git_pull()
-    modify_md_files()
     if not os.path.exists(os.path.join(working_dir, "site")):
         create_site()
     if not os.path.exists(os.path.join(working_dir, "site/public")):
         compile_site()
+    webhook()
     uvicorn.run("main:app", host="0.0.0.0", port=8882, reload=False)
