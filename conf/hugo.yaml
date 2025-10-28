@@ -72,3 +72,9 @@ menu:
       name: Search
       url: /search/
       weight: 30
+
+outputs:
+  home:
+    - HTML
+    - RSS
+    - JSON

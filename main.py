@@ -10,6 +10,11 @@ from fastapi import FastAPI
 app = FastAPI()
 working_dir = os.environ.get("WORKING_DIR", "./")
 
+def modify_md_files():
+    md_files: list[str] = list(Path(os.path.join(working_dir, "site/content/posts")).rglob("*.md"))
+    for file in md_files:
+        modify_img_links(file)
+
 def modify_img_links(filename: str):
     pattern = re.compile(r'!\[([^\]]*)\]\(([^)]+)\)')
     with open(filename, 'r') as read_md:
@@ -55,9 +60,7 @@ def create_site():
 @app.post("/webhook")
 def webhook():
     git_pull()
-    md_files: list[str] = list(Path(os.path.join(working_dir, "site/content/posts")).rglob("*.md"))
-    for file in md_files:
-        modify_img_links(file)
+    modify_md_files()
     compile_site()
 
 if __name__ == '__main__':
@@ -65,6 +68,7 @@ if __name__ == '__main__':
         git_clone()
     else:
         git_pull()
+    modify_md_files()
     if not os.path.exists(os.path.join(working_dir, "site")):
         create_site()
     if not os.path.exists(os.path.join(working_dir, "site/public")):
