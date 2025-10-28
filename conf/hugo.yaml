@@ -42,7 +42,7 @@ params:
       url: "https://github.com/TheWhale01"
 
   editPost:
-    URL: "https://github.com/TheWhale01/blog-ideas/content"
+    URL: "https://github.com/TheWhale01/blog-ideas/blob/main/content"
     Text: "Suggest Changes" # edit text
     appendFilePath: true # to append file path to Edit link
 

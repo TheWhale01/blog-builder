@@ -1,4 +1,5 @@
 import os
+import re
 import git
 import shutil
 import uvicorn
@@ -7,7 +8,19 @@ from pathlib import Path
 from fastapi import FastAPI
 
 app = FastAPI()
-working_dir = os.environ.get("WORKING_DIR", "/var/lib/blog-builder")
+working_dir = os.environ.get("WORKING_DIR", "./")
+
+def modify_img_links(filename: str):
+    pattern = re.compile(r'!\[([^\]]*)\]\(([^)]+)\)')
+    with open(filename, 'r') as read_md:
+        with open(f"{filename}_wr.md", 'w') as write_md:
+            while line := read_md.readline():
+                if pattern.match(line):
+                    write_md.write(line.replace('/static', ''))
+                else:
+                    write_md.write(line)
+    shutil.os.remove(filename)
+    os.rename(f"{filename}_wr.md", filename)
 
 def git_clone():
     repo_url = "https://github.com/TheWhale01/blog-ideas"
@@ -42,6 +55,9 @@ def create_site():
 @app.post("/webhook")
 def webhook():
     git_pull()
+    md_files: list[str] = list(Path(os.path.join(working_dir, "site/content/posts")).rglob("*.md"))
+    for file in md_files:
+        modify_img_links(file)
     compile_site()
 
 if __name__ == '__main__':
@@ -53,4 +69,4 @@ if __name__ == '__main__':
         create_site()
     if not os.path.exists(os.path.join(working_dir, "site/public")):
         compile_site()
-    uvicorn.run("webhook_listener:app", host="127.0.0.1", port=8882, reload=False)
+    uvicorn.run("main:app", host="0.0.0.0", port=8882, reload=False)

@@ -33,12 +33,12 @@
         installPhase = ''
           mkdir -p $out/bin
           cp -r conf/ $out/
-          cp webhook_listener.py $out/bin/webhook_listener.py
-          chmod +x $out/bin/webhook_listener.py
+          cp main.py $out/bin/main.py
+          chmod +x $out/bin/main.py
           # Create launcher script
           cat > $out/bin/blog-builder <<EOF
           #!${pkgs.python3.interpreter}
-          import sys, runpy; sys.argv = ['webhook_listener.py']; runpy.run_path('$out/bin/webhook_listener.py', run_name='__main__')
+          import sys, runpy; sys.argv = ['main.py']; runpy.run_path('$out/bin/main.py', run_name='__main__')
           EOF
           chmod +x $out/bin/blog-builder
         '';
