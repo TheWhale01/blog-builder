@@ -16,12 +16,20 @@ def modify_md_files():
         modify_img_links(file)
 
 def modify_img_links(filename: str):
-    pattern = re.compile(r'!\[([^\]]*)\]\(([^)]+)\)')
+    pattern = re.compile(r'\[([^\]]+)\]\(([^)]+)\)')
     with open(filename, 'r') as read_md:
         with open(f"{filename}_wr.md", 'w') as write_md:
             while line := read_md.readline():
-                if pattern.match(line):
-                    write_md.write(line.replace('/static', ''))
+                match = pattern.search(line)
+                if match:
+                    href = match.group(2) \
+                        .replace('/static', '') \
+                        .replace('/content', '') \
+                        .replace('.md', '')
+                    href = href.lower() + '/'
+                    link = f"[{match.group(1)}]({href})"
+                    line = line.replace(match.group(0), link)
+                    write_md.write(line)
                 else:
                     write_md.write(line)
     shutil.os.remove(filename)
