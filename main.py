@@ -26,9 +26,9 @@ def modify_img_links(filename: str):
                         .replace('/static', '') \
                         .replace('/content', '') \
                         .replace('.md', '')
-                    href = href.lower() + '/'
                     link = f"[{match.group(1)}]({href})"
                     line = line.replace(match.group(0), link)
+                    line = line.lower()
                     write_md.write(line)
                 else:
                     write_md.write(line)
@@ -41,11 +41,13 @@ def git_clone():
 
 def git_pull():
     repo = git.Repo(os.path.join(working_dir, "blog-ideas"))
+    repo.git.reset('--hard', 'HEAD')
+    repo.git.clean('-fd')
     origin = repo.remote(name="origin")
     origin.pull()
 
 def compile_site():
-    subprocess.run(["hugo"], cwd=os.path.join(working_dir, "site"), shell=True, check=True)
+    subprocess.run(["hugo"], cwd=os.path.join(working_dir, "site"))
 
 def configure_hugo():
     shutil.os.remove(os.path.join(working_dir, "site/hugo.yaml"))
@@ -58,10 +60,10 @@ def configure_hugo():
 def create_site():
     repo_dir = os.path.join(working_dir, "site")
     print("Creating site...")
-    subprocess.run("git init", cwd=working_dir, check=True, shell=True)
-    subprocess.run(f"hugo new site {repo_dir} --format yaml", cwd=working_dir, check=True, shell=True)
-    subprocess.run("git submodule add --depth=1 -f https://github.com/adityatelange/hugo-PaperMod.git themes/PaperMod", cwd=repo_dir, check=True, shell=True)
-    subprocess.run("git submodule update --init --recursive", cwd=repo_dir, check=True, shell=True)
+    subprocess.run(["git", "init"], cwd=working_dir)
+    subprocess.run(["hugo", "new", "site", repo_dir, "--format", "yaml"], cwd=working_dir)
+    subprocess.run(["git", "submodule", "add", "--depth=1", "-f", "https://github.com/adityatelange/hugo-PaperMod.git", "themes/PaperMod"], cwd=repo_dir)
+    subprocess.run(["git", "submodule", "update", "--init", "--recursive"], cwd=repo_dir)
     configure_hugo()
     compile_site()
 
@@ -71,7 +73,7 @@ def webhook():
     modify_md_files()
     compile_site()
 
-if __name__ == '__main__':
+def main():
     if not os.path.exists(os.path.join(working_dir, "blog-ideas")):
         git_clone()
     else:
@@ -82,3 +84,6 @@ if __name__ == '__main__':
         compile_site()
     webhook()
     uvicorn.run("main:app", host="0.0.0.0", port=8882, reload=False)
+
+if __name__ == '__main__':
+    main()
